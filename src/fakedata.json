@@ -1,0 +1,21 @@
+[{
+    "image": "https://i.ibb.co/9c2y4sf/car.png",
+    "vehicle": "car",
+    "sit": "4",
+    "fare":"$100"
+  }, {
+    "image": "https://i.ibb.co/NrFkD13/bus.png",
+    "vehicle": "bus",
+    "sit": "30",
+    "fare":"$20"
+  }, {
+    "image": "https://i.ibb.co/kJPq2qx/train.png",
+    "vehicle": "train",
+    "sit": "50",
+    "fare":"$20"
+  }, {
+    "image": "https://i.ibb.co/80RByP0/bike.png",
+    "vehicle": "bike",
+    "sit": "2",
+    "fare":"$50"
+  }]
