@@ -5,14 +5,14 @@ import "firebase/auth";
 import firebaseConfig from './firebase.config';
 import { useHistory, useLocation } from 'react-router';
 import { UserContext } from '../../App';
-
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookF, faGoogle, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons'
 
 function Login() {
   const [loggedInUser, setLoggedInUser] = useContext(UserContext);
   const history = useHistory();
   const location = useLocation();
-  const { from } = location.state || { from: { pathname: `/login` } };
+  const { from } = location.state || { from: { pathname: `/` } };
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
   }
@@ -29,7 +29,7 @@ function Login() {
   const handleGoogleSignIn = () => {
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth()
-      .signInWithPopup(provider)
+      .signInWithPopup(googleProvider)
       .then((result) => {
         const { displayName, email } = result.user;
         const signedInUser = { name: displayName, email }
@@ -101,7 +101,8 @@ function Login() {
           const newUserInfo = { ...user };
           newUserInfo.error = error.message;
           newUserInfo.success = false;
-          setUser(newUserInfo)
+          setLoggedInUser(newUserInfo);
+        history.replace(from);
         });
     }
     if (!newUser && user.email && user.password) {
@@ -110,13 +111,14 @@ function Login() {
           const newUserInfo = { ...user };
           newUserInfo.error = '';
           newUserInfo.success = true;
-          setUser(newUserInfo);
+          setLoggedInUser(newUserInfo);
+        history.replace(from);
         })
         .catch((error) => {
           const newUserInfo = { ...user };
           newUserInfo.error = error.message;
           newUserInfo.success = false;
-          setUser(newUserInfo)
+          setLoggedInUser(newUserInfo);
         });
 
     }
@@ -136,6 +138,8 @@ function Login() {
       const newUserInfo = { ...user };
       newUserInfo[e.target.name] = e.target.value;
       setUser(newUserInfo);
+      console.log(newUserInfo);
+  
     }
   }
 
@@ -156,16 +160,22 @@ function Login() {
     borderBottom: '1px solid black',
     marginBottom: '1em'
   }
+  const iconStyle = {
+    marginRight: '5px', color: 'red', fontSize: '20px'
+}
   return (
     <div  >
       <div className="d-flex justify-content-center">
         <form style={{ border: "1px solid gray", display: 'inline-block', margin: '5% auto', padding: '4em 3em' }} onSubmit={handleSubmit}>
           <h3>Login</h3>
-          {newUser && <input type="text" name="name" onBlur={handleBlur} placeholder="Your name" required />}
+          {newUser && <input style={inputStyle} type="text" name="name" onBlur={handleBlur} placeholder="Your name" required />}
           <br />
           <input style={inputStyle} type="text" name="email" onBlur={handleBlur} placeholder="Email" required />
           <br />
           <input style={inputStyle} type="password" name="password" onBlur={handleBlur} placeholder="Password" id="" required />
+          <br />
+          {newUser && <input style={inputStyle} type="password" name="password" onBlur={handleBlur} placeholder="Confirm Password" required />}
+
           <br />
           <input style={{ width: '100%', backgroundColor: 'orange', color: 'white', border: 'none' }} type="submit" value={newUser ? 'Sign up' : 'Sign in'} />
           <br />
@@ -182,22 +192,13 @@ function Login() {
           <p >or</p>
           {
             user.isSignedIn ? <button onClick={handleSignOut}>Sign out</button> :
-              <button style={{borderTop:'1px solid gray'}} className="btn" onClick={handleGoogleSignIn}>Continue with Google</button>
+              <button style={{border:'1px solid gray'}} className="btn" onClick={handleGoogleSignIn}><FontAwesomeIcon icon={faGoogle} style={iconStyle} />Continue with Google</button>
           }
           </div>
           <div>
-          <button className="btn" onClick={handleFbSignIn}>Continue withFacebook</button>
+          <button style={{border:'1px solid gray'}} className="btn" onClick={handleFbSignIn}><FontAwesomeIcon icon={faFacebookF} style={iconStyle} />Continue withFacebook</button>
           </div>
         </div>
-      
-      {/* {
-        user.isSignedIn && <div>
-          <p>Welcome, {user.name}</p>
-          <p>Your email: {user.email} </p>
-          <img src={user.photo} alt=""></img>
-        </div>
-      } */}
-
       <p style={{ color: 'red' }}>{user.error}</p>
       {user.success && <p style={{ color: 'green' }}>User {newUser ? 'created' : 'Logged In'} successfully</p>
       }

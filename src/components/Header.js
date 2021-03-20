@@ -5,6 +5,7 @@ import { UserContext } from '../App';
 
 const Header = () => {
     const [loggedInUser, setLoggedInUser] = useContext(UserContext);
+    const [user, setUser] = useContext(UserContext);
     const styles = {
         margin:"20px",
         padding:"10px",
@@ -22,8 +23,8 @@ const Header = () => {
                     <Link style={{textDecoration:"none", color:"black"}} to="/"><li style={styles}>Destination</li></Link>
                     <li style={styles}>Blog</li>
                     <li style={styles}>Contact</li>
-                    <li style={styles}>{loggedInUser.name}</li>
-                    {!loggedInUser.name && < Button as={Link} to="/login/" className="btn btn-danger">Login</Button>}
+                    <li style={styles}>{loggedInUser.name || user.name}</li>
+                    {(!loggedInUser.name && !user.name) && < Button as={Link} to="/login/" className="btn btn-danger">Login</Button>}
                 </div>
             </div>
         </div>
