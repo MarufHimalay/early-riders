@@ -7,7 +7,7 @@ import Vehicle from '../Vehicle/Vehicle';
 const Home = () => {
     return (
 
-        <div style={{margin:'10% auto'}} className="container text-center row">
+        <div style={{margin:'10% auto'}} className="container text-center row gy-2">
             
             {
                 fakeData.map(vh => <Vehicle vehicle={vh.vehicle} image={vh.image}></Vehicle>)

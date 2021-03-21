@@ -166,7 +166,7 @@ function Login() {
   return (
     <div  >
       <div className="d-flex justify-content-center">
-        <form style={{ border: "1px solid gray", display: 'inline-block', margin: '5% auto', padding: '4em 3em' }} onSubmit={handleSubmit}>
+        <form style={{ border: "1px solid gray", display: 'inline-block', margin: '1em 2em', padding: '2em 2em' }} onSubmit={handleSubmit}>
           <h3>Login</h3>
           {newUser && <input style={inputStyle} type="text" name="name" onBlur={handleBlur} placeholder="Your name" required />}
           <br />
@@ -196,7 +196,7 @@ function Login() {
           }
           </div>
           <div>
-          <button style={{border:'1px solid gray'}} className="btn" onClick={handleFbSignIn}><FontAwesomeIcon icon={faFacebookF} style={iconStyle} />Continue withFacebook</button>
+          <button style={{border:'1px solid gray'}} className="btn" onClick={handleFbSignIn}><FontAwesomeIcon icon={faFacebookF} style={iconStyle} />Continue with Facebook</button>
           </div>
         </div>
       <p style={{ color: 'red' }}>{user.error}</p>
